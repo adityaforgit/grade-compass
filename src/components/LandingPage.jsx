@@ -271,48 +271,6 @@ export default function LandingPage({ onGetStarted, onOpenGradeSystem, onOpenAbo
 
           {/* 3. HERO APP MOCKUP with Sliding Showcase */}
           <div className="relative max-w-5xl mx-auto text-left">
-            {/* Left Handwritten Script + Curved Arrow */}
-            <div className="hidden xl:block absolute -left-32 top-1/3 -translate-y-1/2 z-20 pointer-events-none animate-float-slow opacity-80">
-              <div className="font-handwritten text-2xl text-slate-600 leading-tight -rotate-12 text-center">
-                Your<br />
-                Grades<br />
-                Our Compass
-              </div>
-              <svg
-                className="w-14 h-10 text-slate-500 mt-1 ml-4 -rotate-6 transition-transform hover:scale-105"
-                viewBox="0 0 60 40"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M 5 10 Q 30 35 52 18" />
-                <path d="M 42 16 L 52 18 L 48 28" />
-              </svg>
-            </div>
-
-            {/* Right Handwritten Script + Curved Arrow */}
-            <div className="hidden xl:block absolute -right-28 -top-2 z-20 pointer-events-none animate-float-delayed-2 opacity-80">
-              <div className="font-handwritten text-2xl text-slate-600 leading-tight rotate-6 text-center">
-                Plan<br />
-                Calculate<br />
-                Achieve
-              </div>
-              <svg
-                className="w-14 h-10 text-slate-500 mt-1 -ml-3 rotate-12 transition-transform hover:scale-105"
-                viewBox="0 0 60 40"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M 50 5 Q 30 30 10 20" />
-                <path d="M 12 10 L 10 20 L 22 22" />
-              </svg>
-            </div>
-
             {/* Floating Sliding Mockup Card Container */}
             <div
               onMouseEnter={() => setIsHovered(true)}
