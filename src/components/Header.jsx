@@ -1,12 +1,10 @@
 import { useState } from 'react'
-import { Compass, Moon, Sun, BookOpen, GraduationCap, Sparkles, Menu, X } from 'lucide-react'
+import { Compass, BookOpen, GraduationCap, Sparkles, Menu, X } from 'lucide-react'
 import { CALCULATOR_PRESETS } from '../utils/presets'
 
 export default function Header({
   activeTab,
   setActiveTab,
-  darkMode,
-  setDarkMode,
   onSelectPreset,
   onOpenFormulaModal,
 }) {
@@ -98,14 +96,8 @@ export default function Header({
               <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
 
-            {/* Dark / Light Toggle */}
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-amber-500 dark:hover:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors border border-transparent hover:border-slate-200 dark:hover:border-slate-700 cursor-pointer"
-            >
-              {darkMode ? <Sun className="w-4 h-4 sm:w-5 sm:h-5" /> : <Moon className="w-4 h-4 sm:w-5 sm:h-5" />}
-            </button>
+
+
 
             {/* Mobile Menu Toggle Button */}
             <button

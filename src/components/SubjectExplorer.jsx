@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react'
 import {
   Compass,
-  Sun,
   GraduationCap,
   Calendar,
   FileText,
@@ -146,17 +145,8 @@ export default function SubjectExplorer({
               </button>
             </nav>
 
-            {/* Right: Theme Toggle & Mobile Menu Button */}
+            {/* Right: Mobile Menu Toggle Button */}
             <div className="flex items-center space-x-2">
-              <button
-                type="button"
-                title="Toggle Theme"
-                className="w-9 h-9 rounded-lg border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer"
-              >
-                <Sun className="w-4 h-4" />
-              </button>
-
-              {/* Mobile Menu Toggle Button */}
               <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

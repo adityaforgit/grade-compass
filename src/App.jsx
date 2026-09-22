@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import LandingPage from './components/LandingPage'
 import SubjectExplorer from './components/SubjectExplorer'
 import SubjectCalculator from './components/SubjectCalculator'
@@ -15,6 +15,12 @@ import { ArrowLeft } from 'lucide-react'
 export default function App() {
   // Current view: 'landing' (default), 'subjects' (academic details & subjects), 'calculator', or 'planner'
   const [currentView, setCurrentView] = useState('landing')
+
+  // Clean up any previously persisted dark theme so the app runs in clean default light theme
+  useEffect(() => {
+    document.documentElement.classList.remove('dark')
+    localStorage.removeItem('gc_theme')
+  }, [])
 
   // Selected subject from SubjectExplorer
   const [selectedSubject, setSelectedSubject] = useState(null)
@@ -189,8 +195,6 @@ export default function App() {
       <Header
         activeTab={currentView}
         setActiveTab={setCurrentView}
-        darkMode={false}
-        setDarkMode={() => {}}
         onSelectPreset={handleSelectPreset}
         onOpenFormulaModal={() => setIsFormulaModalOpen(true)}
       />
