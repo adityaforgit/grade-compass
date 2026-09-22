@@ -7,6 +7,11 @@ import {
   ArrowLeft,
   ArrowRight,
   HelpCircle,
+  Menu,
+  X,
+  Home,
+  Calculator as CalcIcon,
+  Users,
 } from 'lucide-react'
 import { calculateTheoryInternal } from '../utils/gradeCalculations'
 
@@ -24,6 +29,7 @@ export default function SubjectCalculator({
   onOpenAbout,
   onOpenFormulaModal,
 }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const isTheory = subject?.type !== 'Lab'
   const maxFinal = isTheory ? 70 : 60
 
@@ -176,15 +182,111 @@ export default function SubjectCalculator({
               </button>
             </nav>
 
-            {/* Right: Theme Toggle */}
-            <button
-              type="button"
-              title="Toggle Theme"
-              className="w-9 h-9 rounded-lg border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer"
-            >
-              <Sun className="w-4 h-4" />
-            </button>
+            {/* Right: Theme Toggle & Mobile Menu Button */}
+            <div className="flex items-center space-x-2">
+              <button
+                type="button"
+                title="Toggle Theme"
+                className="w-9 h-9 rounded-lg border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                <Sun className="w-4 h-4" />
+              </button>
+
+              {/* Mobile Menu Toggle Button */}
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label="Toggle navigation menu"
+                className="md:hidden w-9 h-9 rounded-lg border border-slate-200 flex items-center justify-center text-slate-700 hover:text-blue-600 hover:bg-slate-50 transition-colors cursor-pointer"
+              >
+                {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
+
+          {/* Mobile Navigation Drawer */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden py-4 border-t border-slate-100 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-200">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false)
+                  onNavigateHome()
+                }}
+                className="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors text-left cursor-pointer"
+              >
+                <Home className="w-4 h-4 text-slate-400" />
+                <span>Home</span>
+              </button>
+
+              <div className="flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-semibold text-blue-600 bg-blue-50/70">
+                <CalcIcon className="w-4 h-4 text-blue-600" />
+                <span>Calculator (Active)</span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false)
+                  onBackToSubjects()
+                }}
+                className="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors text-left cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4 text-slate-400" />
+                <span>Back to My Subjects</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false)
+                  onOpenGradeSystem()
+                }}
+                className="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors text-left cursor-pointer"
+              >
+                <GraduationCap className="w-4 h-4 text-slate-400" />
+                <span>Grade System</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false)
+                  onOpenResources()
+                }}
+                className="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors text-left cursor-pointer"
+              >
+                <FileText className="w-4 h-4 text-slate-400" />
+                <span>Resources</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false)
+                  onOpenAbout()
+                }}
+                className="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors text-left cursor-pointer"
+              >
+                <Users className="w-4 h-4 text-slate-400" />
+                <span>About</span>
+              </button>
+
+              {onOpenFormulaModal && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false)
+                    onOpenFormulaModal()
+                  }}
+                  className="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors text-left cursor-pointer"
+                >
+                  <HelpCircle className="w-4 h-4 text-slate-400" />
+                  <span>Formula &amp; Rules Explainer</span>
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </header>
 

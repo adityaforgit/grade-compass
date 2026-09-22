@@ -17,6 +17,9 @@ import {
   ChevronLeft,
   ChevronRight,
   CheckCircle2,
+  Menu,
+  X,
+  Home,
 } from 'lucide-react'
 import { calculateTheoryInternal } from '../utils/gradeCalculations'
 import { BRANCHES, SEMESTERS, getSubjectsForBranchAndSemester } from '../data/curriculumData'
@@ -25,6 +28,7 @@ export default function LandingPage({ onGetStarted, onOpenGradeSystem, onOpenAbo
   // Sliding showcase state (0: Internal Calculator, 1: Target Matrix, 2: Subject Explorer)
   const [activeSlide, setActiveSlide] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   // State for the interactive Subject Calculator preview
   const [ca1, setCa1] = useState(18)
@@ -139,17 +143,92 @@ export default function LandingPage({ onGetStarted, onOpenGradeSystem, onOpenAbo
               </button>
             </div>
 
-            {/* Right Action Button */}
-            <div>
+            {/* Right Action Button & Mobile Menu Toggle */}
+            <div className="flex items-center space-x-2.5">
               <button
                 type="button"
                 onClick={onGetStarted}
-                className="btn-shimmer bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-sm font-semibold px-5 py-2.5 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer"
+                className="btn-shimmer bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer"
               >
                 Get Started
               </button>
+
+              {/* Mobile Hamburger Toggle Button */}
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label="Toggle navigation menu"
+                className="md:hidden w-10 h-10 rounded-lg border border-slate-200 flex items-center justify-center text-slate-700 hover:text-blue-600 hover:bg-slate-50 transition-colors cursor-pointer"
+              >
+                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
             </div>
           </div>
+
+          {/* Mobile Navigation Drawer */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden py-4 border-t border-slate-100 bg-white/95 backdrop-blur-md space-y-1 animate-in fade-in slide-in-from-top-2 duration-200">
+              <a
+                href="#home"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-semibold text-blue-600 bg-blue-50/70"
+              >
+                <Home className="w-4 h-4" />
+                <span>Home</span>
+              </a>
+              <a
+                href="#features"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors"
+              >
+                <Sparkles className="w-4 h-4 text-slate-400" />
+                <span>Features</span>
+              </a>
+              <a
+                href="#how-it-works"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors"
+              >
+                <BarChart2 className="w-4 h-4 text-slate-400" />
+                <span>How It Works</span>
+              </a>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false)
+                  onOpenGradeSystem()
+                }}
+                className="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors text-left cursor-pointer"
+              >
+                <Trophy className="w-4 h-4 text-slate-400" />
+                <span>Grade System</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false)
+                  onOpenAbout()
+                }}
+                className="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors text-left cursor-pointer"
+              >
+                <Users className="w-4 h-4 text-slate-400" />
+                <span>About</span>
+              </button>
+              <div className="pt-2 px-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false)
+                    onGetStarted()
+                  }}
+                  className="w-full flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 active:scale-98 text-white text-sm font-semibold px-4 py-2.5 rounded-lg shadow-sm transition-all cursor-pointer"
+                >
+                  <span>Open Subject Calculator</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
