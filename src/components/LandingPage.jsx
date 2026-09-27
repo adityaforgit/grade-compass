@@ -252,6 +252,7 @@ export default function LandingPage({
           {/* Main Headline */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[64px] font-black tracking-tight text-slate-900 dark:text-white leading-[1.15] mb-5">
             Calculate <span className="text-blue-600 dark:text-blue-400">Plan</span> Achieve
+            <span className="sr-only"> — MAKAUT Grade &amp; End-Semester Marks Calculator</span>
           </h1>
 
           {/* Subheading */}

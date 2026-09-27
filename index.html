@@ -2,17 +2,192 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GradeCompass — Calculate Plan Achieve | MAKAUT Grade Calculator</title>
-    <meta name="description" content="A simple and reliable grade calculator for MAKAUT students. Know your target end-semester marks, track your progress, and take control of your academic journey." />
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>GradeCompass — MAKAUT Grade &amp; End-Semester Marks Calculator</title>
+    <meta name="title" content="GradeCompass — MAKAUT Grade &amp; End-Semester Marks Calculator" />
+    <meta name="description" content="Free MAKAUT grade calculator for engineering students. Calculate internal assessment marks (CA, ECA, WCA), target end-semester marks, SGPA &amp; track 11+ branches." />
+    <meta name="keywords" content="MAKAUT grade calculator, MAKAUT SGPA calculator, MAKAUT internal marks formula, CA1 CA2 marks calculation, MAKAUT B.Tech grading system, end semester required marks calculator, MAKAUT CGPA calculator, West Bengal engineering grades, MAKAUT syllabus 2026, MAKAUT pass marks 40 out of 100" />
+    <meta name="author" content="GradeCompass" />
+    <meta name="application-name" content="GradeCompass" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://gradecompass.vercel.app/" />
+
+    <!-- Geo-Targeting & Language -->
+    <meta name="geo.region" content="IN-WB" />
+    <meta name="geo.placename" content="Kolkata, West Bengal" />
+    <meta name="language" content="English" />
+
+    <!-- Icons & Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#2563eb" />
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="GradeCompass" />
+
+    <!-- Open Graph / Facebook / Discord / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="GradeCompass" />
+    <meta property="og:url" content="https://gradecompass.vercel.app/" />
+    <meta property="og:title" content="GradeCompass — MAKAUT Grade &amp; End-Semester Marks Calculator" />
+    <meta property="og:description" content="Calculate internal assessment marks, predict required end-semester exam scores for O, E, A, B, C, D grades with zero login required. Built for MAKAUT students." />
+    <meta property="og:image" content="https://gradecompass.vercel.app/og-preview.svg" />
+    <meta property="og:image:secure_url" content="https://gradecompass.vercel.app/og-preview.svg" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="GradeCompass MAKAUT Grade &amp; End-Semester Marks Calculator Preview" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://gradecompass.vercel.app/" />
+    <meta name="twitter:title" content="GradeCompass — MAKAUT Grade &amp; End-Semester Marks Calculator" />
+    <meta name="twitter:description" content="Free MAKAUT grade calculator for engineering students. Calculate internal assessment marks, end-semester exam targets, and SGPA." />
+    <meta name="twitter:image" content="https://gradecompass.vercel.app/og-preview.svg" />
+    <meta name="twitter:image:alt" content="GradeCompass MAKAUT Grade &amp; End-Semester Marks Calculator Preview" />
+
+    <!-- Google Fonts: Preconnect & Font-Display Swap for Core Web Vitals -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <!-- Structured Data (JSON-LD): WebApplication, FAQPage, Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://gradecompass.vercel.app/#webapp",
+          "name": "GradeCompass",
+          "url": "https://gradecompass.vercel.app/",
+          "applicationCategory": "EducationalApplication",
+          "operatingSystem": "All",
+          "browserRequirements": "Requires JavaScript. Requires HTML5.",
+          "description": "An algorithmic grade reverse-calculator and SGPA planner for MAKAUT engineering students, accurately computing internal normalized marks and target end-semester marks.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "INR"
+          },
+          "featureList": [
+            "MAKAUT Internal Marks Formula: ((CA1 + CA2) / 5) + (ECA / 7) + WCA",
+            "End-Semester Target Marks Reverse Calculator for O, E, A, B, C, D Grades",
+            "No separate 28/70 floor constraint: pass based on 40/100 aggregate",
+            "11 B.Tech Engineering Disciplines with Semesters 3 to 8 Pre-Loaded",
+            "Semester SGPA and Credit Points Planner",
+            "100% Client-Side with Zero Login Required"
+          ],
+          "creator": {
+            "@type": "Organization",
+            "name": "GradeCompass",
+            "url": "https://gradecompass.vercel.app/"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://gradecompass.vercel.app/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How are internal marks calculated under MAKAUT for theory subjects?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For MAKAUT B.Tech theory subjects, Total Internal Marks (out of 30) = ((CA1 + CA2) / 5) + (ECA / 7) + WCA. CA1 and CA2 are continuous assessments out of 25 each, ECA (Mid-term) is out of 70, and WCA (Attendance/Assignment) is out of 10. Maximum internal score is 30 marks."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is there a minimum pass mark of 28/70 in the MAKAUT end-semester exam?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Under the official MAKAUT evaluation rules, course passing is evaluated on the Overall Final Score: Final Score = Internal Marks (max 30) + End-Semester Marks (max 70). The minimum aggregate score to pass (D Grade) is 40 out of 100. There is no separate 28/70 floor constraint."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What are the MAKAUT letter grades and pointer ranges?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The official MAKAUT 10-point grading system consists of: O (Outstanding, 10 Pointer: 90-100 marks), E (Excellent, 9 Pointer: 80-89 marks), A (Very Good, 8 Pointer: 70-79 marks), B (Good, 7 Pointer: 60-69 marks), C (Fair, 6 Pointer: 50-59 marks), D (Pass, 5 Pointer: 40-49 marks), and F (Fail: below 40 marks)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which engineering branches and semesters does GradeCompass support?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "GradeCompass supports 11 engineering disciplines including Computer Science & Engineering (CSE), Information Technology (IT), Electronics & Communication (ECE), Electrical Engineering (EE), Mechanical Engineering (ME), Civil Engineering (CE), Artificial Intelligence & Machine Learning (AI/ML), Computer Science & Business Systems (CSBS), and Internet of Things (IoT) across Semesters 3 to 8 with complete theory subject mappings."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://gradecompass.vercel.app/#organization",
+          "name": "GradeCompass",
+          "url": "https://gradecompass.vercel.app/",
+          "logo": "https://gradecompass.vercel.app/favicon.svg"
+        }
+      ]
+    }
+    </script>
   </head>
   <body class="bg-white text-slate-800 min-h-screen selection:bg-blue-600 selection:text-white antialiased font-sans">
+    <!-- Accessible Pre-rendered Fallback Content for Web Crawlers & Non-JS Visitors -->
+    <noscript>
+      <div style="max-width: 800px; margin: 40px auto; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1e293b;">
+        <h1 style="color: #1d4ed8; font-size: 28px; margin-bottom: 8px;">GradeCompass — MAKAUT Grade &amp; End-Semester Marks Calculator</h1>
+        <p style="font-size: 16px; color: #475569;">
+          GradeCompass is a free academic calculator designed specifically for Maulana Abul Kalam Azad University of Technology (MAKAUT) students.
+          Calculate your normalized internal marks, determine the exact target marks needed in your End-Semester Examination (ESE) to achieve O, E, A, B, C, or D grades, and calculate semester SGPA.
+        </p>
+
+        <h2 style="color: #0f172a; font-size: 20px; margin-top: 24px;">Official MAKAUT Evaluation Architecture</h2>
+        <p><strong>Internal Assessment (30 Marks Max):</strong></p>
+        <ul>
+          <li><strong>CA Component (10 Marks):</strong> (CA1 + CA2) / 5 (where CA1 and CA2 are scored out of 25)</li>
+          <li><strong>ECA Component (10 Marks):</strong> ECA / 7 (where ECA is scored out of 70)</li>
+          <li><strong>WCA Component (10 Marks):</strong> WCA score (out of 10)</li>
+          <li><strong>Total Internal:</strong> CA Component + ECA Component + WCA Component</li>
+        </ul>
+
+        <h2 style="color: #0f172a; font-size: 20px; margin-top: 24px;">Passing Criteria &amp; Target Marks</h2>
+        <p>
+          Passing is evaluated purely on the overall score (Internal Marks + ESE Marks &ge; 40 out of 100).
+          There is <strong>no separate 28/70 minimum constraint</strong> in the End-Semester Examination.
+        </p>
+        <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; margin-top: 12px; border-color: #cbd5e1;">
+          <thead style="background: #f1f5f9;">
+            <tr>
+              <th align="left">Grade</th>
+              <th align="left">Pointer</th>
+              <th align="left">Score Range</th>
+              <th align="left">Target Final Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>O</strong></td><td>10 Pointer</td><td>90 – 100</td><td>90 / 100</td></tr>
+            <tr><td><strong>E</strong></td><td>9 Pointer</td><td>80 – 89</td><td>80 / 100</td></tr>
+            <tr><td><strong>A</strong></td><td>8 Pointer</td><td>70 – 79</td><td>70 / 100</td></tr>
+            <tr><td><strong>B</strong></td><td>7 Pointer</td><td>60 – 69</td><td>60 / 100</td></tr>
+            <tr><td><strong>C</strong></td><td>6 Pointer</td><td>50 – 59</td><td>50 / 100</td></tr>
+            <tr><td><strong>D</strong></td><td>5 Pointer (Pass)</td><td>40 – 49</td><td>40 / 100</td></tr>
+          </tbody>
+        </table>
+
+        <h2 style="color: #0f172a; font-size: 20px; margin-top: 24px;">Supported Engineering Branches</h2>
+        <p>Pre-loaded subjects for Computer Science &amp; Engineering (CSE), Information Technology (IT), Electronics &amp; Communication (ECE), Electrical Engineering (EE), Mechanical Engineering (ME), Civil Engineering (CE), AI/ML, CSBS, and IoT across Semesters 3 to 8.</p>
+        <p style="color: #64748b; font-size: 13px; margin-top: 24px;">Please enable JavaScript to use the interactive calculator and curriculum explorer.</p>
+      </div>
+    </noscript>
+
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

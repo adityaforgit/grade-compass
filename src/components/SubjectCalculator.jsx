@@ -298,6 +298,7 @@ export default function SubjectCalculator({
         <div className="mb-8">
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
             {subject.name} ({subject.code})
+            <span className="sr-only"> — MAKAUT Internal &amp; End-Semester Marks Calculator</span>
           </h1>
           <div className="flex items-center space-x-2 mt-2 mb-2">
             <span

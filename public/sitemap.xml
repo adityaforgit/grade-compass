@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main Grade Calculator & Landing Page -->
+  <url>
+    <loc>https://gradecompass.vercel.app/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <!-- MAKAUT Curriculum & Subject Explorer -->
+  <url>
+    <loc>https://gradecompass.vercel.app/#subjects</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <!-- Internal Marks & End-Semester Target Calculator -->
+  <url>
+    <loc>https://gradecompass.vercel.app/#calculator</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <!-- MAKAUT SGPA & Semester Planner -->
+  <url>
+    <loc>https://gradecompass.vercel.app/#planner</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Features & Assessment Architecture -->
+  <url>
+    <loc>https://gradecompass.vercel.app/#features</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <!-- University Grading System Guidelines -->
+  <url>
+    <loc>https://gradecompass.vercel.app/#grade-system</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>
+

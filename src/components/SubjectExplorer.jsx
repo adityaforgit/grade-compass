@@ -241,6 +241,7 @@ export default function SubjectExplorer({
               </p>
               <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                 Choose Your Branch and Semester
+                <span className="sr-only"> — MAKAUT B.Tech Curriculum &amp; Subject Explorer</span>
               </h1>
               <p className="text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
                 Select your branch and semester to view your subjects and start calculating your target marks.

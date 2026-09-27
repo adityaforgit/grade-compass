@@ -1,0 +1,17 @@
+{
+  "name": "GradeCompass — MAKAUT Grade Calculator",
+  "short_name": "GradeCompass",
+  "description": "Calculate internal marks, predict required end-semester exam marks, and plan your SGPA for MAKAUT students.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
+

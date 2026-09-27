@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import LandingPage from './components/LandingPage'
 import SubjectExplorer from './components/SubjectExplorer'
 import SubjectCalculator from './components/SubjectCalculator'
@@ -11,6 +11,7 @@ import ResourcesModal from './components/ResourcesModal'
 import FormulaExplainerModal from './components/FormulaExplainerModal'
 import Footer from './components/Footer'
 import { ArrowLeft } from 'lucide-react'
+import { usePageSEO } from './utils/usePageSEO'
 
 export default function App() {
   // Current view: 'landing' (default), 'subjects' (academic details & subjects), 'calculator', or 'planner'
@@ -24,6 +25,44 @@ export default function App() {
 
   // Selected subject from SubjectExplorer
   const [selectedSubject, setSelectedSubject] = useState(null)
+
+  // Dynamic SEO metadata based on active view and subject
+  const seoConfig = useMemo(() => {
+    switch (currentView) {
+      case 'subjects':
+        return {
+          title: 'MAKAUT B.Tech Curriculum & Subject Explorer | GradeCompass',
+          description:
+            'Browse 350+ theory and practical courses across 11 engineering disciplines and Semesters 3 to 8 for MAKAUT students.',
+        }
+      case 'subject-calculator':
+        return {
+          title: `${selectedSubject?.name || 'Subject'} (${selectedSubject?.code || 'Theory'}) — End-Semester Target Marks | GradeCompass`,
+          description: `Calculate internal marks and target end-semester exam marks for ${selectedSubject?.name || 'this subject'} (${selectedSubject?.code || ''}) under official MAKAUT rules.`,
+        }
+      case 'calculator':
+        return {
+          title: 'Target Score & Normalization Calculator | GradeCompass',
+          description:
+            'Simulate required end-semester exam marks based on your internal assessment score for theory and practical courses.',
+        }
+      case 'planner':
+        return {
+          title: 'MAKAUT SGPA & Semester Performance Planner | GradeCompass',
+          description:
+            'Plan your semester grade point average (SGPA), credit points, and course performance with GradeCompass.',
+        }
+      case 'landing':
+      default:
+        return {
+          title: 'GradeCompass — MAKAUT Grade & End-Semester Marks Calculator',
+          description:
+            'Free MAKAUT grade calculator for engineering students. Calculate internal assessment marks (CA, ECA, WCA), target end-semester marks, SGPA & track 11+ branches.',
+        }
+    }
+  }, [currentView, selectedSubject])
+
+  usePageSEO(seoConfig)
 
   // Modals state
   const [isGradeSystemOpen, setIsGradeSystemOpen] = useState(false)
