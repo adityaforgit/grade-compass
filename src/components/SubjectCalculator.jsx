@@ -490,7 +490,7 @@ export default function SubjectCalculator({
                 </div>
               </div>
 
-              {/* Submit / Calculate Button & Add More Subject Button */}
+              {/* Submit / Calculate Button */}
               <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <p className="text-xs text-slate-500 text-center sm:text-left">
                   {isSubmitted ? (
@@ -498,29 +498,17 @@ export default function SubjectCalculator({
                       <span>✓ Calculated for current marks</span>
                     </span>
                   ) : (
-                    <span>Enter your marks above and click calculate or add to your result.</span>
+                    <span>Enter your marks above and click calculate to view required final scores.</span>
                   )}
                 </p>
-                <div className="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto">
-                  <button
-                    type="button"
-                    onClick={() => setIsSubmitted(true)}
-                    className="btn-shimmer w-full sm:w-auto bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-xs transition-all cursor-pointer inline-flex items-center justify-center space-x-2"
-                  >
-                    <span>{isSubmitted ? 'Recalculate Required Marks' : 'Calculate Required Marks'}</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={handleSaveAndAddMore}
-                    className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-xs transition-all cursor-pointer inline-flex items-center justify-center space-x-2"
-                    title="Save this subject's marks and return to pick another subject"
-                  >
-                    <Plus className="w-4 h-4" />
-                    <span>{addedSubjectsCount > 0 ? `Add More Subject (${addedSubjectsCount})` : 'Add More Subject'}</span>
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsSubmitted(true)}
+                  className="btn-shimmer w-full sm:w-auto bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow-xs transition-all cursor-pointer inline-flex items-center justify-center space-x-2"
+                >
+                  <span>{isSubmitted ? 'Recalculate Required Marks' : 'Calculate Required Marks'}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
               </div>
             </div>
 
