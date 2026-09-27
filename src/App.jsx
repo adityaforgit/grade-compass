@@ -26,6 +26,31 @@ export default function App() {
   // Selected subject from SubjectExplorer
   const [selectedSubject, setSelectedSubject] = useState(null)
 
+  // In-memory branch and semester selection (persists across views, resets on browser refresh)
+  const [selectedBranch, setSelectedBranch] = useState('CSE')
+  const [selectedSemester, setSelectedSemester] = useState('SEM-3')
+
+  // Multi-subject results collection for whole-semester result calculation
+  const [addedSubjects, setAddedSubjects] = useState([])
+
+  const handleAddOrUpdateSubject = (subjectRecord) => {
+    setAddedSubjects((prev) => {
+      const idx = prev.findIndex((s) => s.code === subjectRecord.code)
+      if (idx >= 0) {
+        const next = [...prev]
+        next[idx] = subjectRecord
+        return next
+      }
+      return [...prev, subjectRecord]
+    })
+    setCurrentView('subjects')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleRemoveAddedSubject = (subjectCode) => {
+    setAddedSubjects((prev) => prev.filter((s) => s.code !== subjectCode))
+  }
+
   // Dynamic SEO metadata based on active view and subject
   const seoConfig = useMemo(() => {
     switch (currentView) {
@@ -112,8 +137,14 @@ export default function App() {
   // If on academic details / subject explorer page (matching media_1790019502351.png)
   if (currentView === 'subjects') {
     return (
-      <>
-        <SubjectExplorer
+       <>
+         <SubjectExplorer
+          selectedBranch={selectedBranch}
+          onSelectBranch={setSelectedBranch}
+          selectedSemester={selectedSemester}
+          onSelectSemester={setSelectedSemester}
+          addedSubjects={addedSubjects}
+          onRemoveAddedSubject={handleRemoveAddedSubject}
           onNavigateHome={() => {
             setCurrentView('landing')
             window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -148,17 +179,26 @@ export default function App() {
 
   // If on Subject Score Calculator page (matching media_1790021476353.png)
   if (currentView === 'subject-calculator') {
+    const activeSubject =
+      selectedSubject || {
+        name: 'Data Structures',
+        code: 'CS301',
+        type: 'Theory',
+        credits: 3,
+      }
+
+    const existingCalc = addedSubjects.find(
+      (s) => s.code === activeSubject.code
+    )
+
     return (
       <>
         <SubjectCalculator
-          subject={
-            selectedSubject || {
-              name: 'Data Structures',
-              code: 'CS301',
-              type: 'Theory',
-              credits: 3,
-            }
-          }
+          key={activeSubject.code}
+          subject={activeSubject}
+          existingCalculation={existingCalc}
+          addedSubjectsCount={addedSubjects.length}
+          onAddMoreSubject={handleAddOrUpdateSubject}
           onBackToSubjects={() => {
             setCurrentView('subjects')
             window.scrollTo({ top: 0, behavior: 'smooth' })

@@ -11,6 +11,7 @@ import {
   Home,
   Calculator as CalcIcon,
   Users,
+  Plus,
 } from 'lucide-react'
 import { calculateTheoryInternal } from '../utils/gradeCalculations'
 
@@ -21,6 +22,9 @@ export default function SubjectCalculator({
     type: 'Theory',
     credits: 3,
   },
+  existingCalculation,
+  addedSubjectsCount = 0,
+  onAddMoreSubject,
   onBackToSubjects,
   onNavigateHome,
   onOpenGradeSystem,
@@ -32,14 +36,22 @@ export default function SubjectCalculator({
   const isTheory = subject?.type !== 'Lab'
   const maxFinal = isTheory ? 70 : 60
 
-  // State for internal marks
-  const [ca1, setCa1] = useState('')
-  const [ca2, setCa2] = useState('')
-  const [wca, setWca] = useState('')
-  const [eca, setEca] = useState('')
+  // State for internal marks (pre-populating from existing calculation if already added)
+  const [ca1, setCa1] = useState(
+    existingCalculation?.ca1 !== undefined ? existingCalculation.ca1 : ''
+  )
+  const [ca2, setCa2] = useState(
+    existingCalculation?.ca2 !== undefined ? existingCalculation.ca2 : ''
+  )
+  const [wca, setWca] = useState(
+    existingCalculation?.wca !== undefined ? existingCalculation.wca : ''
+  )
+  const [eca, setEca] = useState(
+    existingCalculation?.eca !== undefined ? existingCalculation.eca : ''
+  )
 
-  // State to reveal the required marks window only after clicking submit
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  // State to reveal the required marks window (opened immediately if calculation was previously saved)
+  const [isSubmitted, setIsSubmitted] = useState(Boolean(existingCalculation))
 
   // Calculations based on official MAKAUT evaluation rules
   const calculations = useMemo(() => {
@@ -116,6 +128,35 @@ export default function SubjectCalculator({
   const formatTargetScore = (score) => {
     if (score > maxFinal) return `> ${maxFinal}`
     return `${score} / ${maxFinal}`
+  }
+
+  const handleSaveAndAddMore = () => {
+    const record = {
+      code: subject.code,
+      name: subject.name,
+      type: subject.type || (isTheory ? 'Theory' : 'Lab'),
+      credits: subject.credits || 0,
+      ca1: ca1 === '' ? 0 : Number(ca1),
+      ca2: ca2 === '' ? 0 : Number(ca2),
+      wca: wca === '' ? 0 : Number(wca),
+      eca: eca === '' ? 0 : Number(eca),
+      totalInternal: calculations.totalInternal,
+      isTheory,
+      targetGrades: {
+        passNeeded: calculations.passNeeded,
+        cNeeded: calculations.cNeeded,
+        bNeeded: calculations.bNeeded,
+        aNeeded: calculations.aNeeded,
+        eNeeded: calculations.eNeeded,
+        oNeeded: calculations.oNeeded,
+      },
+    }
+
+    if (onAddMoreSubject) {
+      onAddMoreSubject(record)
+    } else if (onBackToSubjects) {
+      onBackToSubjects()
+    }
   }
 
   return (
@@ -449,7 +490,7 @@ export default function SubjectCalculator({
                 </div>
               </div>
 
-              {/* Submit / Calculate Button */}
+              {/* Submit / Calculate Button & Add More Subject Button */}
               <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <p className="text-xs text-slate-500 text-center sm:text-left">
                   {isSubmitted ? (
@@ -457,17 +498,29 @@ export default function SubjectCalculator({
                       <span>✓ Calculated for current marks</span>
                     </span>
                   ) : (
-                    <span>Enter your marks above and click calculate to view required final scores.</span>
+                    <span>Enter your marks above and click calculate or add to your result.</span>
                   )}
                 </p>
-                <button
-                  type="button"
-                  onClick={() => setIsSubmitted(true)}
-                  className="btn-shimmer w-full sm:w-auto bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow-sm hover:shadow transition-all cursor-pointer inline-flex items-center justify-center space-x-2"
-                >
-                  <span>{isSubmitted ? 'Recalculate Required Marks' : 'Calculate Required Marks'}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+                <div className="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto">
+                  <button
+                    type="button"
+                    onClick={() => setIsSubmitted(true)}
+                    className="btn-shimmer w-full sm:w-auto bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-xs transition-all cursor-pointer inline-flex items-center justify-center space-x-2"
+                  >
+                    <span>{isSubmitted ? 'Recalculate Required Marks' : 'Calculate Required Marks'}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleSaveAndAddMore}
+                    className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-xs transition-all cursor-pointer inline-flex items-center justify-center space-x-2"
+                    title="Save this subject's marks and return to pick another subject"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>{addedSubjectsCount > 0 ? `Add More Subject (${addedSubjectsCount})` : 'Add More Subject'}</span>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -717,6 +770,33 @@ export default function SubjectCalculator({
                       </div>
                     </div>
                   </div>
+                </div>
+
+                {/* 3. CARD 3: ADD MORE SUBJECTS FOR WHOLE RESULT */}
+                <div className="bg-gradient-to-r from-emerald-50 via-teal-50/50 to-blue-50/50 border border-emerald-200/90 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-start space-x-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 shadow-xs">
+                      <Plus className="w-5 h-5 stroke-[2.5]" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                        {existingCalculation
+                          ? 'Update & Add More Subjects'
+                          : 'Save & Add More Subjects for Whole Result'}
+                      </h3>
+                      <p className="text-xs text-slate-600 mt-1 max-w-lg leading-relaxed">
+                        Add this subject to your semester calculation and return to the subject list to pick the next one.
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleSaveAndAddMore}
+                    className="inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-semibold text-xs sm:text-sm px-6 py-3 rounded-xl shadow-xs hover:shadow transition-all cursor-pointer flex-shrink-0"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>{addedSubjectsCount > 0 ? `Add More Subject (${addedSubjectsCount} saved)` : 'Add More Subject'}</span>
+                  </button>
                 </div>
               </div>
             )}

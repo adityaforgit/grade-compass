@@ -20,6 +20,7 @@ import {
   Home,
   BookOpen,
   Calculator as CalcIcon,
+  Check,
 } from 'lucide-react'
 import {
   BRANCHES,
@@ -54,15 +55,28 @@ function SubjectIcon({ iconName, className = 'w-5 h-5' }) {
 }
 
 export default function SubjectExplorer({
+  selectedBranch: propBranch,
+  onSelectBranch,
+  selectedSemester: propSemester,
+  onSelectSemester,
+  addedSubjects = [],
+  onRemoveAddedSubject,
   onNavigateHome,
   onOpenGradeSystem,
   onOpenAbout,
   onOpenResources,
   onSelectSubject,
 }) {
-  // Default values set to Computer Science & Engineering and Semester 3
-  const [selectedBranch, setSelectedBranch] = useState('CSE')
-  const [selectedSemester, setSelectedSemester] = useState('SEM-3')
+  // In-memory branch and semester from parent (or local fallback)
+  const [internalBranch, setInternalBranch] = useState('CSE')
+  const [internalSemester, setInternalSemester] = useState('SEM-3')
+
+  const selectedBranch = propBranch !== undefined ? propBranch : internalBranch
+  const setSelectedBranch = onSelectBranch || setInternalBranch
+
+  const selectedSemester = propSemester !== undefined ? propSemester : internalSemester
+  const setSelectedSemester = onSelectSemester || setInternalSemester
+
   const [searchQuery, setSearchQuery] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -321,13 +335,57 @@ export default function SubjectExplorer({
 
           {/* "Your Subjects" Section */}
           <div>
+            {/* Multi-Subject / Whole Result In-Progress Banner */}
+            {addedSubjects.length > 0 && (
+              <div className="mb-6 bg-gradient-to-r from-blue-50/90 via-indigo-50/60 to-emerald-50/70 border border-blue-200/80 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs animate-in fade-in duration-200">
+                <div className="flex items-center space-x-3.5">
+                  <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black text-sm shadow-xs flex-shrink-0">
+                    {addedSubjects.length}
+                  </div>
+                  <div>
+                    <div className="flex items-center space-x-2">
+                      <h2 className="text-sm font-bold text-slate-900">
+                        {addedSubjects.length === 1
+                          ? '1 Subject Added for Whole Result'
+                          : `${addedSubjects.length} Subjects Added for Whole Result`}
+                      </h2>
+                      <span className="text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-200">
+                        In Progress
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      Your entered marks are saved. Select another subject from the list to calculate and add more.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-2 self-start sm:self-auto">
+                  <span className="text-xs font-semibold text-blue-700 bg-white/80 border border-blue-200 px-3 py-1.5 rounded-xl shadow-2xs">
+                    {addedSubjects.length} Saved
+                  </span>
+                  {onRemoveAddedSubject && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        addedSubjects.forEach((s) => onRemoveAddedSubject(s.code))
+                      }}
+                      className="text-xs font-medium text-slate-400 hover:text-rose-600 transition-colors px-2 py-1 cursor-pointer"
+                      title="Clear saved subjects"
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
               <div>
                 <h2 className="text-xl font-bold text-slate-900">
                   Your Subjects
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Click on a subject to calculate your required marks.
+                  Click on a subject to calculate your required marks and add to your result.
                 </p>
               </div>
 
@@ -349,57 +407,98 @@ export default function SubjectExplorer({
             {/* Subject Cards Grid (3 cols on desktop) */}
             {filteredSubjects.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredSubjects.map((sub) => (
-                  <div
-                    key={sub.id}
-                    onClick={() => onSelectSubject && onSelectSubject(sub)}
-                    className="bg-white rounded-2xl border border-slate-200/90 p-5 hover:border-blue-400 hover:shadow-md transition-all duration-200 cursor-pointer group flex flex-col justify-between min-h-[135px]"
-                  >
-                    {/* Top Row: Icon + Subject Info + Arrow */}
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-start space-x-3.5">
-                        <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-all duration-200">
-                          <SubjectIcon iconName={sub.icon} className="w-5 h-5" />
+                {filteredSubjects.map((sub) => {
+                  const addedRecord = addedSubjects.find((s) => s.code === sub.code)
+                  const isAdded = !!addedRecord
+
+                  return (
+                    <div
+                      key={sub.id}
+                      onClick={() => onSelectSubject && onSelectSubject(sub)}
+                      className={`bg-white rounded-2xl border p-5 hover:shadow-md transition-all duration-200 cursor-pointer group flex flex-col justify-between min-h-[135px] ${
+                        isAdded
+                          ? 'border-emerald-300 ring-1 ring-emerald-500/20 bg-emerald-50/20 hover:border-emerald-400'
+                          : 'border-slate-200/90 hover:border-blue-400'
+                      }`}
+                    >
+                      {/* Top Row: Icon + Subject Info + Arrow */}
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-start space-x-3.5">
+                          <div
+                            className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
+                              isAdded
+                                ? 'bg-emerald-600 text-white shadow-xs'
+                                : 'bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white'
+                            }`}
+                          >
+                            {isAdded ? (
+                              <Check className="w-5 h-5 stroke-[2.5]" />
+                            ) : (
+                              <SubjectIcon iconName={sub.icon} className="w-5 h-5" />
+                            )}
+                          </div>
+                          <div>
+                            <h3 className="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug line-clamp-2">
+                              {sub.name}
+                            </h3>
+                            <div className="flex items-center space-x-2 mt-0.5">
+                              <span className="text-xs text-slate-400 font-mono">
+                                {sub.code}
+                              </span>
+                              {isAdded && (
+                                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/90 px-1.5 py-0.5 rounded font-mono">
+                                  Int: {addedRecord.totalInternal}/{sub.type === 'Lab' ? 40 : 30}
+                                </span>
+                              )}
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug line-clamp-2">
-                            {sub.name}
-                          </h3>
-                          <span className="text-xs text-slate-400 font-mono block mt-0.5">
-                            {sub.code}
-                          </span>
-                        </div>
+
+                        {/* Right Circular Action Button */}
+                        <button
+                          type="button"
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all flex-shrink-0 ml-2 ${
+                            isAdded
+                              ? 'bg-emerald-100 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white'
+                              : 'bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white group-hover:translate-x-0.5'
+                          }`}
+                          title={isAdded ? 'Edit marks for this subject' : 'Calculate for this subject'}
+                        >
+                          {isAdded ? (
+                            <Check className="w-4 h-4" />
+                          ) : (
+                            <ArrowRight className="w-4 h-4" />
+                          )}
+                        </button>
                       </div>
 
-                      {/* Right Circular Arrow Button */}
-                      <button
-                        type="button"
-                        className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white group-hover:translate-x-0.5 transition-all flex-shrink-0 ml-2"
-                        title="Calculate for this subject"
-                      >
-                        <ArrowRight className="w-4 h-4" />
-                      </button>
+                      {/* Bottom Row: Badge */}
+                      <div className="mt-4 pt-2 flex items-center justify-between border-t border-slate-100/80">
+                        <div className="flex items-center space-x-2">
+                          <span
+                            className={`text-[11px] font-bold px-2.5 py-0.5 rounded-md ${
+                              sub.type === 'Lab'
+                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60'
+                                : 'bg-blue-50 text-blue-700 border border-blue-200/60'
+                            }`}
+                          >
+                            {sub.type}
+                          </span>
+                          {isAdded && (
+                            <span className="text-[11px] font-bold text-emerald-600">
+                              ✓ Added
+                            </span>
+                          )}
+                        </div>
+                        {sub.credits > 0 && (
+                          <span className="text-[11px] text-slate-400 font-medium">
+                            {sub.credits} Credits
+                          </span>
+                        )}
+                      </div>
                     </div>
-
-                    {/* Bottom Row: Badge */}
-                    <div className="mt-4 pt-2 flex items-center justify-between">
-                      <span
-                        className={`text-[11px] font-bold px-2.5 py-0.5 rounded-md ${
-                          sub.type === 'Lab'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60'
-                            : 'bg-blue-50 text-blue-700 border border-blue-200/60'
-                        }`}
-                      >
-                        {sub.type}
-                      </span>
-                      {sub.credits > 0 && (
-                        <span className="text-[11px] text-slate-400 font-medium">
-                          {sub.credits} Credits
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             ) : (
               <div className="bg-white rounded-2xl border border-dashed border-slate-300 p-12 text-center my-6">
